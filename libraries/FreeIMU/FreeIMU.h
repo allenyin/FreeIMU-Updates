@@ -253,7 +253,7 @@ class FreeIMU
     
       
 
-      KalmanFilter kPress; // Altitude Kalman Filter.
+      // KalmanFilter kPress; // Altitude Kalman Filter.
       // AltComp altComp; // Altitude Complementary Filter.
 	  
 		#if HAS_APM25()

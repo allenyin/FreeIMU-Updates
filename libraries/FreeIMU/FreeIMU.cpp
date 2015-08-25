@@ -264,7 +264,7 @@ GNU General Public License for more details.
 // #include "WireUtils.h"
 //#include "DebugUtils.h"
 #include <Filter.h>             // Filter library
-#include <Butter.h>
+// #include <Butter.h>
 
 //#if(MARG == 0)
 	#include "AHRS.h"
@@ -336,7 +336,7 @@ FreeIMU::FreeIMU() {
   
     
   #if HAS_PRESS()
-    kPress.KalmanInit(0.0000005,0.01,1.0,0);
+    // kPress.KalmanInit(0.0000005,0.01,1.0,0);
     
 	baro = MS561101BA();
       
@@ -915,8 +915,8 @@ float def_sea_press = 1013.25;
 	float FreeIMU::getBaroAlt(float sea_press) {
 		float temp = baro.getTemperature(MS561101BA_OSR_4096);
 		float press = baro.getPressure(MS561101BA_OSR_4096);
-        float new_press = kPress.measureRSSI(press);
-		return ((pow((sea_press / new_press), 1/5.257) - 1.0) * (temp + 273.15)) / 0.0065;
+        // float new_press = kPress.measureRSSI(press);
+		return ((pow((sea_press / press), 1/5.257) - 1.0) * (temp + 273.15)) / 0.0065;
 	}
 
 	// Returns temperature from MS5611 - added by MJS
@@ -947,8 +947,8 @@ float def_sea_press = 1013.25;
 		//baro.read();
 		float temp = baro.get_temperature()/100.0f;
 		float press = baro.get_pressure()/100.0f;
-        float new_press = kPress.measureRSSI(press);
-		return ((pow((sea_press / new_press), 1/5.257) - 1.0) * (temp + 273.15)) / 0.0065;
+        // float new_press = kPress.measureRSSI(press);
+		return ((pow((sea_press / press), 1/5.257) - 1.0) * (temp + 273.15)) / 0.0065;
 	}
 
 	// Returns temperature from MS5611 - added by MJS
