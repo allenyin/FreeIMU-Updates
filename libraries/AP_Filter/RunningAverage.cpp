@@ -1,7 +1,7 @@
 //
 //    FILE: RunningAverage.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.04
+// VERSION: 0.2.05
 // PURPOSE: RunningAverage library for Arduino
 //
 // The library stores the last N individual values in a circular buffer,
@@ -16,6 +16,7 @@
 // 0.2.02 - 2012-12-30 refactored trimValue -> fillValue
 // 0.2.03 - 2013-11-31 getElement
 // 0.2.04 - 2014-07-03 added memory protection
+// 0.2.05 - 2015-08-24 Used memset() instead of for loops to fill array with zero value. Inline if evaluation for return statements.
 //
 // Released to the public domain
 //
@@ -42,7 +43,8 @@ void RunningAverage::clear()
     _cnt = 0;
     _idx = 0;
     _sum = 0.0;
-    for (int i = 0; i< _size; i++) _ar[i] = 0.0;  // needed to keep addValue simple
+    //for (int i = 0; i< _size; i++) _ar[i] = 0.0;  // needed to keep addValue simple
+    memset(_ar, 0.0, sizeof(_ar));
 }
 
 // adds a new value to the data-set
@@ -60,15 +62,17 @@ void RunningAverage::addValue(float f)
 // returns the average of the data-set added sofar
 float RunningAverage::getAverage()
 {
-    if (_cnt == 0) return NAN;
-    return _sum / _cnt;
+    //if (_cnt == 0) return NAN;
+    //return _sum / _cnt;
+    return _cnt == 0 ? NAN : _sum / _cnt;
 }
 
 // returns the value of an element if exist, 0 otherwise
 float RunningAverage::getElement(uint8_t idx)
 {
-    if (idx >=_cnt ) return NAN;
-    return _ar[idx];
+    //if (idx >=_cnt ) return NAN;
+    //return _ar[idx];
+    return idx >= _cnt ? NAN : _ar[idx];
 }
 
 // fill the average with a value

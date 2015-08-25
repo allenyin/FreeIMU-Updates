@@ -43,17 +43,7 @@ THE SOFTWARE.
 #endif
 
 //#define DEBUG
-#ifdef DEBUG
-    #define DEBUG_PRINT(x) Serial.print(x)
-    #define DEBUG_PRINTF(x, y) Serial.print(x, y)
-    #define DEBUG_PRINTLN(x) Serial.println(x)
-    #define DEBUG_PRINTLNF(x, y) Serial.println(x, y)
-#else
-    #define DEBUG_PRINT(x)
-    #define DEBUG_PRINTF(x, y)
-    #define DEBUG_PRINTLN(x)
-    #define DEBUG_PRINTLNF(x, y)
-#endif 
+
 
 
 #define MPU60X0_ADDRESS_AD0_LOW     0x68 // address pin low (GND), default for InvenSense evaluation board

@@ -2,6 +2,7 @@
 https://github.com/sebnil/Moving-Avarage-Filter--Arduino-Library-
 */
 #include "MovingAvarageFilter.h"
+#include <stdlib.h>
 
 MovingAvarageFilter::MovingAvarageFilter(unsigned int newDataPointsCount) {
   k = 0; //initialize so that we start to write at index 0
@@ -10,9 +11,10 @@ MovingAvarageFilter::MovingAvarageFilter(unsigned int newDataPointsCount) {
   else
 	dataPointsCount = MAX_DATA_POINTS;
   
-  for (i=0; i<dataPointsCount; i++) {
-    values[i] = 0; // fill the array with 0's
-  }
+  // for (i=0; i<dataPointsCount; i++) {
+  //   values[i] = 0; // fill the array with 0's
+  // }
+  memset(values, 0, sizeof(values));
 }
 
 float MovingAvarageFilter::process(float in) {
