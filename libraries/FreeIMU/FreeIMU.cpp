@@ -264,7 +264,7 @@ GNU General Public License for more details.
 // #include "WireUtils.h"
 //#include "DebugUtils.h"
 #include <Filter.h>             // Filter library
-// #include <Butter.h>
+#include <Butter.h>
 
 //#if(MARG == 0)
 	#include "AHRS.h"
@@ -653,9 +653,10 @@ void FreeIMU::getValues(float * values) {
 			}
 		} 
 	} else {
-		for( i = 0; i < 9; i++) { 
-			acgyro_corr[i] = 0.0f;
-	  }
+		// for( i = 0; i < 9; i++) { 
+		// 	acgyro_corr[i] = 0.0f;
+	 //    }
+	    memset(acgyro_corr, 0.0f, sizeof(acgyro_corr));
 	}
 	
     // remove offsets from the gyroscope
@@ -711,7 +712,7 @@ void FreeIMU::getValues(float * values) {
 	}
 
   
-  for(int i = 0; i < 9; i++) {
+  for(uint8_t i = 0; i < 9; i++) {
 	values[i] = sensor_sign[i] * values_cal[sensor_order[i]];
   }
 }
@@ -752,12 +753,12 @@ void FreeIMU::initGyros() {
 	////digitalWrite(12,HIGH);
 	
     // remove existing gyro offsets
-    for (uint8_t k=0; k<num_gyros; k++) {
-        gyro_offset[k] = Vector3f(0,0,0);
-        best_diff[k] = 0;
-        last_average[k].zero();
-        converged[k] = false;
-    }
+    // for (uint8_t k=0; k<num_gyros; k++) {
+        gyro_offset[0] = Vector3f(0,0,0);
+        best_diff[0] = 0;
+        last_average[0].zero();
+        converged[0] = false;
+    //}
     
 	// the strategy is to average 50 points over 0.5 seconds, then do it
     // again and see if the 2nd average is within a small margin of
@@ -767,7 +768,7 @@ void FreeIMU::initGyros() {
 	
     // we try to get a good calibration estimate for up to 10 seconds
     // if the gyros are stable, we should get it in 1 second
-	for (int16_t j = 0; j <= 30 && num_converged < num_gyros; j++) {
+	for (int16_t j = 0; j <= 30 && num_converged < 1; j++) {
 		Vector3f gyro_sum[INS_MAX_INSTANCES], gyro_avg[INS_MAX_INSTANCES], gyro_diff[INS_MAX_INSTANCES];
 		float diff_norm[INS_MAX_INSTANCES];
 		
@@ -776,33 +777,33 @@ void FreeIMU::initGyros() {
 		zeroGyro();
 		gyro_avg[0] = Vector3f(gyro_off_x, gyro_off_y,gyro_off_z) ;
 		
-		for (uint8_t k=0; k<num_gyros; k++) {
-            gyro_diff[k] = last_average[k] - gyro_avg[k];
-            diff_norm[k] = gyro_diff[k].length();
-        }
+		//for (uint8_t k=0; k<num_gyros; k++) {
+            gyro_diff[0] = last_average[0] - gyro_avg[0];
+            diff_norm[0] = gyro_diff[0].length();
+        //}
 		
-		for (uint8_t k=0; k<num_gyros; k++) {
-            if (converged[k]) continue;
+		// for (uint8_t k=0; k<num_gyros; k++) {
+            if (converged[0]) continue;
             if (j == 0) {
-                best_diff[k] = diff_norm[k];
-                best_avg[k] = gyro_avg[k];
-            } else if (gyro_diff[k].length() < ToRad(0.05f)) {
+                best_diff[0] = diff_norm[0];
+                best_avg[0] = gyro_avg[0];
+            } else if (gyro_diff[0].length() < ToRad(0.05f)) {
                 // we want the average to be within 0.1 bit, which is 0.04 degrees/s
-                last_average[k] = (gyro_avg[k] * 0.5f) + (last_average[k] * 0.5f);
-                gyro_offset[k] = last_average[k];            
-                converged[k] = true;
+                last_average[0] = (gyro_avg[0] * 0.5f) + (last_average[0] * 0.5f);
+                gyro_offset[0] = last_average[0];            
+                converged[0] = true;
                 num_converged++;
-            } else if (diff_norm[k] < best_diff[k]) {
-                best_diff[k] = diff_norm[k];
-                best_avg[k] = (gyro_avg[k] * 0.5f) + (last_average[k] * 0.5f);
+            } else if (diff_norm[0] < best_diff[0]) {
+                best_diff[0] = diff_norm[0];
+                best_avg[0] = (gyro_avg[0] * 0.5f) + (last_average[0] * 0.5f);
             }
-            last_average[k] = gyro_avg[k];
-        }
+            last_average[0] = gyro_avg[0];
+        // }
     }
 	
 	delay(5);
 	
-	if (num_converged == num_gyros) {
+	if (num_converged == 1) {
         // all OK
 		gyro_off_x = gyro_offset[0].x;
 		gyro_off_y = gyro_offset[0].y;
@@ -813,11 +814,11 @@ void FreeIMU::initGyros() {
 
     // we've kept the user waiting long enough - use the best pair we
     // found so far
-    for (uint8_t k=0; k<num_gyros; k++) {
-        if (!converged[k]) {
-            gyro_offset[k] = best_avg[k];
+    // for (uint8_t k=0; k<1; k++) {
+        if (!converged[0]) {
+            gyro_offset[0] = best_avg[0];
         }
-    }
+    // }
 	
 	gyro_off_x = gyro_offset[0].x;
 	gyro_off_y = gyro_offset[0].y;
@@ -1236,7 +1237,8 @@ void FreeIMU::getQ_simple(float * q, float * val)
   
   yaw = val[9] - MAG_DEC;
   
-  if(val[9] > 180.) {	yaw = (yaw - 360.) * M_PI/180;
+  if(val[9] > 180.) {
+  	yaw = (yaw - 360.) * M_PI/180;
    } else {
     yaw = yaw * M_PI/180;
    }
@@ -1446,36 +1448,3 @@ float FreeIMU::invSqrt(float x) {
                 return 1.0f / sqrt(x);
         }
 }
-
-/**
- * Fast inverse square root implementation. Compatible both for 32 and 8 bit microcontrollers.
- * @see http://en.wikipedia.org/wiki/Fast_inverse_square_root
-*/
-/* original code from FreeIMU Library
-float invSqrt(float number) {
-  union {
-    float f;
-    int32_t i;
-  } y;
-
-  y.f = number;
-  y.i = 0x5f375a86 - (y.i >> 1);
-  y.f = y.f * ( 1.5f - ( number * 0.5f * y.f * y.f ) );
-  return y.f;
-}
-*/
-/* Old 8bit version. Kept it here only for testing/debugging of the new code above.
-float invSqrt(float number) {
-  volatile long i;
-  volatile float x, y;
-  volatile const float f = 1.5F;
-
-  x = number * 0.5F;
-  y = number;
-  i = * ( long * ) &y;
-  i = 0x5f375a86 - ( i >> 1 );
-  y = * ( float * ) &i;
-  y = y * ( f - ( x * y * y ) );
-  return y;
-}
-*/
