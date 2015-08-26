@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <HMC58X3.h>
 //#include <DebugUtils.h>
-#define DEBUG_PRINT
+// #define DEBUG_PRINT
 
 
 /*!
@@ -186,7 +186,7 @@ bool HMC58X3::calibrate(unsigned char gain,unsigned int n_samples)
                 */
                 if (-(1<<12) >= min(xyz[0],min(xyz[1],xyz[2])))
                 {
-                    DEBUG_PRINT("HMC58x3 Self test saturated. Increase range.");
+                    // DEBUG_PRINT("HMC58x3 Self test saturated. Increase range.");
                     bret=false;
                     break;  // Breaks out of the for loop.  No sense in continuing if we saturated.
                 }
@@ -210,7 +210,7 @@ bool HMC58X3::calibrate(unsigned char gain,unsigned int n_samples)
                 */
                 if (-(1<<12) >= min(xyz[0],min(xyz[1],xyz[2])))
                 {
-                    DEBUG_PRINT("HMC58x3 Self test saturated. Increase range.");
+                    // DEBUG_PRINT("HMC58x3 Self test saturated. Increase range.");
                     bret=false;
                     break;  // Breaks out of the for loop.  No sense in continuing if we saturated.
                 }
@@ -236,24 +236,24 @@ bool HMC58X3::calibrate(unsigned char gain,unsigned int n_samples)
                 z_scale=(counts_per_milligauss[gain]*(HMC58X3_Z_SELF_TEST_GAUSS*2))/(xyz_total[2]/n_samples);
             }else
             {
-                DEBUG_PRINT("HMC58x3 Self test out of range.");
+                // DEBUG_PRINT("HMC58x3 Self test out of range.");
                 bret=false;
             }
             writeReg(HMC58X3_R_CONFA, 0x010); // set RegA/DOR back to default.
         }else
         {
-            #if defined(ISHMC5843)
-                DEBUG_PRINT("HMC5843 failed id check.");
-            #else
-                DEBUG_PRINT("HMC5883L failed id check.");
-            #endif
+            // #if defined(ISHMC5843)
+            //     DEBUG_PRINT("HMC5843 failed id check.");
+            // #else
+            //     DEBUG_PRINT("HMC5883L failed id check.");
+            // #endif
             bret=false;
         }
     }else
     {   /*
             Bad input parameters.
         */
-        DEBUG_PRINT("HMC58x3 Bad parameters.");
+        // DEBUG_PRINT("HMC58x3 Bad parameters.");
         bret=false;
     }
     return(bret);
