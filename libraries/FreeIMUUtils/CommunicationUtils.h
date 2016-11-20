@@ -2,6 +2,7 @@
 #define CommunitationUtils_h
 
 #include "Arduino.h"
+#define Serial SERIAL_PORT_USBVIRTUAL
 
 void serialPrintFloatArr(float * arr, int length);
 void serialFloatPrint(float f);

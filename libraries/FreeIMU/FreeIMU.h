@@ -76,7 +76,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Set filter type: 1 = Madgwick Gradient Descent, 0 - Madgwick implementation of Mahoney DCM
 // in Quaternion form, 3 = Madwick Original Paper AHRS, 4 - DCM Implementation
 // Set to zero (0) on AVR devices with small flash storage (ATMega32U4)
-#define MARG 1
+#define MARG 3 //1
 
 // proportional gain governs rate of convergence to accelerometer/magnetometer
 // integral gain governs rate of convergence of gyroscope biases
@@ -365,7 +365,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <Wire.h>
 #include "Arduino.h"
+
+#ifndef CALIBRATION_H
 #include "calibration.h"
+#endif
+
 #include <MovingAvarageFilter.h>
 
 #ifndef CALIBRATION_H

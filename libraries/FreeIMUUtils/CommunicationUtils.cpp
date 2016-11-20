@@ -1,5 +1,4 @@
 #include "CommunicationUtils.h"
-
 void serialPrintFloatArr(float * arr, int length) {
   for(int i=0; i<length; i++) {
     serialFloatPrint(arr[i]);
