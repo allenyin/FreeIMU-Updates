@@ -132,11 +132,12 @@ class FreeIMUCal(QMainWindow, Ui_FreeIMUCal):
     mx.setSize(x=1000, y=1000, z=1000)
     self.magn3D.addItem(ax)
     
+    # See https://github.com/Fabio-Varesano-Association/freeimu/pull/1
     self.acc3D_sp = gl.GLScatterPlotItem()
-    self.acc3D.addItem(self.acc3D_sp)
+    #self.acc3D.addItem(self.acc3D_sp)
     
     self.magn3D_sp = gl.GLScatterPlotItem()
-    self.magn3D.addItem(self.magn3D_sp)
+    #self.magn3D.addItem(self.magn3D_sp)
     
     # axis for the cal 3D graph
     g_a = gl.GLAxisItem()
