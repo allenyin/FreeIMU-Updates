@@ -65,8 +65,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define MAG_DEC 4 //+4.0 degrees for Israel
 //#define MAG_DEC -13.1603  //degrees for Flushing, NY
 //#define MAG_DEC 0.21  //degrees for Toulouse, FRANCE
-#define MAG_DEC 13.66 // degrees for Vallejo, CA
+//#define MAG_DEC 13.66 // degrees for Vallejo, CA
 //#define MAG_DEC 13.616 // degrees for San Francisco, CA
+#define MAG_DEC -9.6    // degrees for Durham, CA 
 //#define MAG_DEC 0
 
 //Number of samples to average in iCompass
