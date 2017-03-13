@@ -24,6 +24,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef FreeIMU_h
 #define FreeIMU_h
 
+/* Butterworth filters for accelerometer and magnetometer
+   coefficients have different behavior for different sampling frequency.
+   For sampling freq closer to 100, acc should have Fc~3Hz, and mag Fc~2Hz.
+   For sampling freq closer 10, different sets of coefs are needed.
+   See <Butter.h>
+
+   Define the sampling frequency here, in Hz.
+*/
+#define FSample 10
+
 // Uncomment the appropriated version of FreeIMU you are using
 //#define FREEIMU_v01
 //#define FREEIMU_v02
@@ -77,7 +87,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Set filter type: 1 = Madgwick Gradient Descent, 0 - Madgwick implementation of Mahoney DCM
 // in Quaternion form, 3 = Madwick Original Paper AHRS, 4 - DCM Implementation
 // Set to zero (0) on AVR devices with small flash storage (ATMega32U4)
-#define MARG 4 //1
+#define MARG 1 
 
 // proportional gain governs rate of convergence to accelerometer/magnetometer
 // integral gain governs rate of convergence of gyroscope biases
@@ -112,10 +122,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	const float Kp_YAW = 1.75f;   // was 1.2 and 0.02
 	const float Ki_YAW = 0.002f;
 #elif defined(GEN_MPU9150) 
-	#define twoKpDef  (2.0f * 0.75f)
-	#define twoKiDef  (2.0f * 0.1f)	
-	#define betaDef	  0.01f
-	//Used for DCM filter
+	#define twoKpDef  2.0f    
+	#define twoKiDef  2.0f 
+	
+   	#define betaDef	  0.01f 
+	
+    //Used for DCM filter
 	const float Kp_ROLLPITCH = 1.2f;  //was .3423
 	const float Ki_ROLLPITCH = 0.0234f;
 	const float Kp_YAW = 1.75f;   // was 1.2 and 0.02
@@ -132,13 +144,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     const float Kp_YAW = 1.75f;   // was 1.2 and 0.02
     const float Ki_YAW = 0.002f;
 #elif defined(GEN_MPU9250) || defined(MPU9250_5611)
-	#define twoKpDef  (2.0f * 1.75f) // was 0.95
-	#define twoKiDef  (2.0f * 0.05f) // was 0.05	
-	#define betaDef	  0.515f
+	#define twoKpDef  (1.8f) // For Madgewick Mahoney DCM
+	#define twoKiDef  (0.01f) //(2.0f * 0.05f)
+
+	#define betaDef	  0.7f // for gradient descent
+
 	//Used for DCM filter
 	const float Kp_ROLLPITCH = 1.2f;  //was .3423
 	const float Ki_ROLLPITCH = 0.0234f;
-	const float Kp_YAW = 1.75f;   // was 1.2 and 0.02
+	const float Kp_YAW = 1.2f;   // was 1.2 and 0.02
 	const float Ki_YAW = 0.002f;
 #elif defined(APM_2_5)
     #define twoKpDef  (2.0f * 0.5f)
@@ -541,6 +555,7 @@ class FreeIMU
     void getYawPitchRollRad(float * ypr);
 	void getYawPitchRollRadAHRS(float * ypr, float * q);
 	void getYawPitchRoll180(float * ypr);
+    void getYawPitchRoll180_stable(float * ypr);
     void getEuler360deg(float * angles);	
     void getEuler360(float * angles);
 	void getEuler360degAttitude(float * angles, float * q, float * val);

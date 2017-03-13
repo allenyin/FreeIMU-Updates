@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'freeimu_cal.ui'
 #
-# Created: Mon Dec 17 17:22:26 2012
-#      by: PyQt4 UI code generator 4.9.6
+# Created: Mon Feb 27 00:35:23 2017
+#      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -33,7 +33,6 @@ class Ui_FreeIMUCal(object):
         sizePolicy.setHeightForWidth(FreeIMUCal.sizePolicy().hasHeightForWidth())
         FreeIMUCal.setSizePolicy(sizePolicy)
         FreeIMUCal.setMinimumSize(QtCore.QSize(800, 600))
-        FreeIMUCal.setMaximumSize(QtCore.QSize(800, 680))
         FreeIMUCal.setDocumentMode(False)
         self.centralwidget = QtGui.QWidget(FreeIMUCal)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Maximum)
@@ -43,12 +42,12 @@ class Ui_FreeIMUCal(object):
         self.centralwidget.setSizePolicy(sizePolicy)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.line = QtGui.QFrame(self.centralwidget)
-        self.line.setGeometry(QtCore.QRect(10, 20, 791, 16))
+        self.line.setGeometry(QtCore.QRect(10, 40, 791, 32))
         self.line.setFrameShape(QtGui.QFrame.HLine)
         self.line.setFrameShadow(QtGui.QFrame.Sunken)
         self.line.setObjectName(_fromUtf8("line"))
         self.gridLayoutWidget = QtGui.QWidget(self.centralwidget)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(0, 0, 801, 25))
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(0, 0, 801, 50))
         self.gridLayoutWidget.setObjectName(_fromUtf8("gridLayoutWidget"))
         self.gridLayout = QtGui.QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setSizeConstraint(QtGui.QLayout.SetDefaultConstraint)
@@ -92,7 +91,7 @@ class Ui_FreeIMUCal(object):
         self.serialProtocol.addItem(_fromUtf8(""))
         self.gridLayout.addWidget(self.serialProtocol, 0, 2, 1, 1)
         self.tabWidget = QtGui.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(0, 30, 801, 631))
+        self.tabWidget.setGeometry(QtCore.QRect(0, 55, 801, 631))
         self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
         self.uncalibratedTab = QtGui.QWidget()
         self.uncalibratedTab.setObjectName(_fromUtf8("uncalibratedTab"))
@@ -508,5 +507,5 @@ class Ui_FreeIMUCal(object):
         self.label_4.setText(_translate("FreeIMUCal", "To Be Implemented", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_9), _translate("FreeIMUCal", "Orientation Sensing Test", None))
 
-from pyqtgraph import PlotWidget
 from pyqtgraph.opengl import GLViewWidget
+from pyqtgraph import PlotWidget

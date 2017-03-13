@@ -51,8 +51,8 @@ PrintWriter output;
 
 Serial myPort;  // Create object from Serial class
 
-final String serialPort = "COM4"; // replace this with your serial port. On windows you will need something like "COM1".
-int BaudRate=57600;
+final String serialPort = "/dev/ttyACM0"; // replace this with your serial port. On windows you will need something like "COM1".
+int BaudRate=115200;
 String File_Name = "IMU9250-MARG1.txt";
 int HAS_GPS = 0;
 
@@ -148,7 +148,7 @@ float A;
 float sea_press = 1013.25;           //Input local sea level pressure
 String seapresscmd = "99";
 //float declinationAngle = -13.1603;   //Flushing, NY magnetic declination in degrees
-float declinationAngle = 0;
+float declinationAngle = -9.6;
 float STATIONALTFT = 36.;           //LaGuardia AP measurement height
 float SEA_PRESS  = 1013.25;          //default sea level pressure level in mb
 float KNOWNALT   = 65.0;             //default known altitude, 
@@ -222,7 +222,8 @@ void myDelay(int time) {
 //////////////////////////////////////////////////////////////
 void setup() 
 {
-  size(VIEW_SIZE_X, VIEW_SIZE_Y, OPENGL);
+  //size(VIEW_SIZE_X, VIEW_SIZE_Y, OPENGL);
+  size(1000, 600, OPENGL);
 
   skpath = sketchPath("") + "/";
 
@@ -240,9 +241,9 @@ void setup()
   cp5 = new ControlP5(this);
 
   //sets up value fields for startup options
-  cp5.setControlFont(font,14);
-  cp5.setColorValue(color(255, 255, 0));
-  cp5.setColorLabel(color(255, 255, 0));
+  //cp5.setControlFont(font,14);
+  //cp5.setColorValue(color(255, 255, 0));
+  //cp5.setColorLabel(color(255, 255, 0));
   setValues();
 
   //add button to open rolling trace in gwoptics
@@ -782,4 +783,3 @@ public float iround(float number, float decimal) {
 }
 
 //=======================================
-

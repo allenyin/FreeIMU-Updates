@@ -7,16 +7,16 @@
 
 #define CALIBRATION_H
 
-const int acc_off_x = -572;
-const int acc_off_y = 757;
-const int acc_off_z = -43;
-const float acc_scale_x = 16204.142149;
-const float acc_scale_y = 16363.021889;
-const float acc_scale_z = 16416.513234;
+const int acc_off_x = 2235;
+const int acc_off_y = 728;
+const int acc_off_z = -1890;
+const float acc_scale_x = 15969.288954;
+const float acc_scale_y = 16522.425955;
+const float acc_scale_z = 16949.923924;
 
-const int magn_off_x = 869;
-const int magn_off_y = 1717;
-const int magn_off_z = -1280;
-const float magn_scale_x = 2878.247162;
-const float magn_scale_y = 3025.027762;
-const float magn_scale_z = 2750.123858;
+const int magn_off_x = 1;
+const int magn_off_y = -98;
+const int magn_off_z = -64;
+const float magn_scale_x = 227.405369;
+const float magn_scale_y = 230.417370;
+const float magn_scale_z = 243.300731;

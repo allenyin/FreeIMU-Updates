@@ -1,5 +1,5 @@
-#ifndef CommunitationUtils_h
-#define CommunitationUtils_h
+#ifndef CommunicationUtils_h
+#define CommunicationUtils_h
 
 #include "Arduino.h"
 

@@ -92,4 +92,3 @@ float myAtan2(float y, float x) {
   float t = atan2(y, x);
   return t > 0 ? t : 2 * PI + t;
 }
-

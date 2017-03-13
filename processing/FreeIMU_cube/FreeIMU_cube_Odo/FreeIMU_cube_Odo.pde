@@ -32,8 +32,8 @@ import processing.opengl.*;
 
 Serial myPort;  // Create object from Serial class
 
-final String serialPort = "COM3"; // replace this with your serial port. On windows you will need something like "COM1".
-int BaudRate=57600;
+final String serialPort = "/dev/ttyACM0"; // replace this with your serial port. On windows you will need something like "COM1".
+int BaudRate=9600;
 int HAS_GPS = 0;
 
 
@@ -85,7 +85,8 @@ float A;
 String seapresscmd = "99";
 float STATIONALTFT = 36.0;
 float sea_press = 1013.25;            //Input local sea level pressure
-float declinationAngle = -13.1603;   //Flushing, NY magnetic declination in degrees
+//float declinationAngle = -13.1603;   //Flushing, NY magnetic declination in degrees
+float declinationAngle = -9.6;       // Durham, NC magnetic declination in degrees
 float SEA_PRESS  = 1013.25;          //default sea level pressure level in mb
 float KNOWNALT   = 65.0;            //default known altitude, 
 float INHG       = 0.02952998751;    //convert mb to in/Hg constant
@@ -159,6 +160,7 @@ void setup()
   
   myPort.write("z");
   myPort.bufferUntil('\n');
+  println("Found it!");
 
 }
 
@@ -178,6 +180,7 @@ float decodeFloat(String inString) {
 
 ////////////////////////////////////////////////////////////////////////
 void serialEvent(Serial p) {
+  println("Serial Event!");
   if(p.available() >= 17) {
     String inputString = p.readStringUntil('\n');  
     //print(inputString);

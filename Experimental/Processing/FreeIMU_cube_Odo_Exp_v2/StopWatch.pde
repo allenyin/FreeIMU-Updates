@@ -33,4 +33,3 @@ class StopWatchTimer {
       return (getElapsedTime() / (1000*60*60)) % 24;
     }
 }
-

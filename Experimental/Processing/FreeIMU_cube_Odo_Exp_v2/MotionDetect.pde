@@ -75,4 +75,3 @@ public float MotionDetect() {
       
      //return omegaz;
 }
-

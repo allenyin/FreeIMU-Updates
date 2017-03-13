@@ -61,5 +61,3 @@ public class EMA {
         return newValue;
     }
 }
-
-

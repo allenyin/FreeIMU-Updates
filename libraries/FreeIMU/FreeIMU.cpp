@@ -343,21 +343,35 @@ enum Mscale {
 };
 
 //Setup accelerometer filter
-//butter50hz2_0 mfilter_accx;
-//butter50hz2_0 mfilter_accy;
-//butter50hz2_0 mfilter_accz;
-butter10hz0_3 mfilter_accx;
-butter10hz0_3 mfilter_accy;
-butter10hz0_3 mfilter_accz;
+#if (FSample==10)
+//For wireless connection (close to 10Hz sampling rate), acc
+butter10hz1_6 mfilter_accx;
+butter10hz1_6 mfilter_accy;
+butter10hz1_6 mfilter_accz;
 
-//#if HAS_MPU9150() || HAS_MPU9250()
+// filters for magnetometer reading
+butter10hz0_2 mfilter_mx;
+butter10hz0_2 mfilter_my;
+butter10hz0_2 mfilter_mz;
+
+// filter for yaw reading to combat overshoots
+butter10hz0_2 mfilter_yaw;
+#else
+//For wired connection (Close to 100Hz sampling rate)
+butter100hz3_0 mfilter_accx;
+butter100hz3_0 mfilter_accy;
+butter100hz3_0 mfilter_accz;
+
 //Set up Butterworth Filter for 9150 mag - more noisy than HMC5883L
 //was butter50hz2_0, new values base on Mario Cannistrà suggestion
 //he also used same filter on the gryo's which I am not using rigth now
 butter100hz2_0  mfilter_mx;
 butter100hz2_0  mfilter_my;
 butter100hz2_0  mfilter_mz;
-//#endif
+
+// filter for yaw reading to combat overshoots
+butter100hz2_0 mfilter_yaw;
+#endif
 
 //Setup Motion Detect Averages
 MovingAvarageFilter accnorm_avg(5);
@@ -1322,6 +1336,7 @@ void FreeIMU::getRawValues(int * raw_values) {
  * Populates values with calibrated readings from the sensors
 */
 void FreeIMU::getValues(float * values) { 
+  //Serial.print("getValues!");
 
   float acgyro_corr[9] = {0.,0.,0.,0.,0.,0.,0.,0.,0.};
   float values_cal[9] = {0.,0.,0.,0.,0.,0.,0.,0.,0.};
@@ -2197,8 +2212,30 @@ void FreeIMU::getYawPitchRoll180(float * ypr) {
 	
 	//Calculating Roll1
     ypr[2] = atan(gy / sqrt(gx*gx + gz*gz));
-
+    
+    //Convert to degrees
+    ypr[0] = ypr[0]*180./M_PI;
+    ypr[1] = ypr[1]*180./M_PI;
+    ypr[2] = ypr[2]*180./M_PI;
 }
+
+/*
+ * Returns the yaw pitch and roll angles, respectively defined as the angles in degrees  
+ * between the Earth North and the IMU X-axis (yaw), the Earth ground plane and the
+ * IMU X axis (pitch), and the Earth ground plane and the IMU Y-axis (roll).
+ *
+ * Yaw ranges from [-180, 180], Pitch and Roll ranges [-90, 90].
+ *
+ * Modified from combining getYawPitchRoll180 by applying low-pass filter to outputs
+ *
+ * @param ypr three floats array which will be populated by Yaw, Pitch and Roll 
+ * angles in degrees.
+ */
+void FreeIMU::getYawPitchRoll180_stable(float * ypr) {
+    getYawPitchRoll180(ypr);
+    ypr[0] =  mfilter_yaw.filter(ypr[0]);
+}
+
 
 /**
  * Returns the yaw pitch and roll angles, respectively defined as the angles in degrees between
