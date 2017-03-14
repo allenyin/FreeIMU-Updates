@@ -2233,7 +2233,7 @@ void FreeIMU::getYawPitchRoll180(float * ypr) {
  */
 void FreeIMU::getYawPitchRoll180_stable(float * ypr) {
     getYawPitchRoll180(ypr);
-    ypr[0] =  mfilter_yaw.filter(ypr[0]);
+    //ypr[0] =  mfilter_yaw.filter(ypr[0]);
 }
 
 
